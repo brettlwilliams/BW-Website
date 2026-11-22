@@ -504,6 +504,19 @@
         color: var(--ink);
       }
 
+      /* ---------- The font credit, lettered on the dark card
+         itself below the Special Projects stack's Previous / Next
+         flags — part of that card, so the One Page view (cloned
+         from the cards) carries it too. Dark brown ink on the
+         card's tan ground; the link keeps the card's red ink. -- */
+      .font-credit {
+        margin: 18px 0 4px;
+        font-size: 19px;
+        line-height: 1.35;
+        text-align: center;
+        color: var(--pencil);
+      }
+
       /* ---------- Bottom navigation: the matching aged-brass
          fitting, mounted on the drawer front directly below the
          label-holder navigation ---------- */
@@ -686,6 +699,7 @@
       /* the plain view keeps the note's pen-blue ink but sets it
          straight — no tilt to read against at large text sizes */
       #simple-view .see-also-note { transform: none; font-size: 1.05rem; }
+      #simple-view .font-credit { font-size: 1rem; margin-top: 1em; }
 
       @media (max-width: 640px) {
         :root { --mx: 32px; --tx: 50px; }
@@ -838,6 +852,7 @@
             <article class="mini-card"><a href="https://brettlwilliams.github.io/QuoraBlockzooka/bookmarklet.html" target="_blank" rel="noopener"><strong>Blockzooka</strong></a> — A set of browser bookmarklets for Quora moderation: batch-block a pasted list of profiles with safety filters and throttling, and extract follower lists, Space contributor lists, and Space feed profiles, or mute a Space in a few clicks.</article>
             <article class="mini-card"><a href="https://github.com/brettlwilliams/QuoraBlockzooka/tree/main/agent" target="_blank" rel="noopener"><strong>Quora Block Agent</strong></a> — An importable agent setup guide and classification rules for AI-assisted Quora moderation, including the red/green space lists, guy-type definitions, and the evaluation procedure for identifying inauthentic, spam, and farm accounts.</article>
           </div>
+          <p class="font-credit">Site font: <a href="http://www.margoburns.com/fonts/DanaLibraryHand/" target="_blank" rel="noopener">Dana Library Hand</a> by Margo Burns — free to download and use.</p>
         </section>
 
         <button class="peek" id="peek" type="button" aria-label="Pull the next card">
