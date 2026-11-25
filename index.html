@@ -316,9 +316,9 @@
          call number and the filed-under note alike (its clone in
          the One Page view keeps the same black ink) */
       #card-bio, #card-bio .callno, #card-bio .pencil-note { color: #000; }
-      #simple-view .simple-card[aria-label="Bio"],
-      #simple-view .simple-card[aria-label="Bio"] .callno,
-      #simple-view .simple-card[aria-label="Bio"] .pencil-note { color: #000; }
+      #simple-view .simple-card[data-from="card-bio"],
+      #simple-view .simple-card[data-from="card-bio"] .callno,
+      #simple-view .simple-card[data-from="card-bio"] .pencil-note { color: #000; }
       /* the See Also cross-reference, scribbled in blue ballpoint
          under the two Naive Bibliometrics links it belongs to:
          italic Dana hand at a tilt, in pen-blue ink instead of the
@@ -788,7 +788,7 @@
         </section>
 
         <section class="card" role="tabpanel" id="card-bio" aria-labelledby="tab-bio" style="--tilt:.25deg"
-                 data-title="Bio"
+                 data-title="Brett Williams"
                  data-peek="Brett Williams — Brett is an accomplished and versatile librarian, researcher and open-source intelligence professional based in Toronto, with over a decade of experience across a broad range of library services and academic disciplines.">
           <div class="card-top"><span></span><span class="callno">CT .W55</span></div>
           <p><strong>Brett Williams</strong> — Brett is an accomplished and versatile librarian, researcher and open-source intelligence professional based in Toronto, with over a decade of experience across a broad range of library services and academic disciplines. He holds a Master of Library and Information Studies (MLIS) from McGill University and began his career establishing the library systems for the College of the North Atlantic-Qatar. He previously worked for the University of Toronto and has worked for the Ontario Medical Association for 10 years.</p>
@@ -874,7 +874,7 @@
         </section>
 
         <button class="peek" id="peek" type="button" aria-label="Pull the next card">
-          <span class="peek-title" id="peek-title">Bio</span>
+          <span class="peek-title" id="peek-title">Brett Williams</span>
           <span class="peek-text" id="peek-text"></span>
         </button>
       </div>
@@ -1027,6 +1027,7 @@
             sec.removeAttribute('aria-labelledby');
             sec.className = 'simple-card';
             sec.setAttribute('aria-label', card.getAttribute('data-title'));
+            sec.setAttribute('data-from', card.id);
             var det = sec.querySelector('details');
             if (det) det.setAttribute('open', '');
             view.appendChild(sec);
