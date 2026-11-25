@@ -789,7 +789,8 @@
 
         <section class="card" role="tabpanel" id="card-bio" aria-labelledby="tab-bio" style="--tilt:.25deg"
                  data-title="Brett Williams"
-                 data-peek="Brett Williams is an accomplished and versatile librarian, researcher and open-source intelligence professional based in Toronto, with over a decade of experience across a broad range of library services and academic disciplines.">
+                 data-peek-title=""
+                 data-peek="An accomplished and versatile librarian, researcher and open-source intelligence professional based in Toronto, with over a decade of experience across a broad range of library services and academic disciplines.">
           <div class="card-top"><span></span><span class="callno">CT .W55</span></div>
           <p><strong>Brett Williams</strong> is an accomplished and versatile librarian, researcher and open-source intelligence professional based in Toronto, with over a decade of experience across a broad range of library services and academic disciplines. He holds a Master of Library and Information Studies (MLIS) from McGill University and began his career establishing the library systems for the College of the North Atlantic-Qatar. He previously worked for the University of Toronto and has worked for the Ontario Medical Association for 10 years.</p>
           <p>Brett has focused on making copyright, information literacy and database research understandable at every level, working from English as a Foreign Language students to post-PhD researchers to refine their search strategies and improve their research processes.</p>
@@ -873,9 +874,9 @@
           <p class="font-credit">Site font: <a href="http://www.margoburns.com/fonts/DanaLibraryHand/" target="_blank" rel="noopener">Dana Library Hand</a> by Margo Burns — free to download and use.</p>
         </section>
 
-        <button class="peek" id="peek" type="button" aria-label="Pull the next card">
-          <span class="peek-title" id="peek-title">Brett Williams</span>
-          <span class="peek-text" id="peek-text"></span>
+        <button class="peek" id="peek" type="button" aria-label="Pull the next card: Bio">
+          <span class="peek-title" id="peek-title" style="display:none"></span>
+          <span class="peek-text" id="peek-text">An accomplished and versatile librarian, researcher and open-source intelligence professional based in Toronto, with over a decade of experience across a broad range of library services and academic disciplines.</span>
         </button>
       </div>
 
@@ -954,9 +955,16 @@
               cards[i].classList.toggle('active', on);
             });
             var next = (current + 1) % cards.length;
-            peekTitle.textContent = title(next);
+            /* A card may opt out of a peek title with an empty
+               data-peek-title (the Bio card does — its peek shows
+               only its opening line, with no name heading). */
+            var peekTitleText = cards[next].hasAttribute('data-peek-title')
+              ? cards[next].getAttribute('data-peek-title')
+              : title(next);
+            peekTitle.textContent = peekTitleText;
+            peekTitle.style.display = peekTitleText ? '' : 'none';
             peekText.textContent = cards[next].getAttribute('data-peek') || '';
-            peek.setAttribute('aria-label', 'Pull the next card: ' + title(next));
+            peek.setAttribute('aria-label', 'Pull the next card: ' + (peekTitleText || tabs[next].textContent.trim()));
             live.textContent = title(current) + ' card on top. Next card peeking out: ' + title(next) + '.';
             replay(cards[current], 'active');
           }
