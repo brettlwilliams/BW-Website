@@ -627,29 +627,39 @@
       .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 
       /* ---------- One Page tab: not a separate divider tab but the
-         top of the card itself, grown up into a tab. It lives inside
-         the drawer as the active card's own top edge, so whichever
-         card is on top, the tab is part of that card: its left edge
-         is flush with the card below (same border, same top-left
-         corner radius), it takes the card's tilt and — on the two
-         dark cards — the card's tan paper (see .tab-dark below and
-         Deck.syncTab in the script), it carries the card's exact
-         ruling — the red margin line at the same 54px offset, so the
-         line runs unbroken from the card up through the tab, and the
-         blue rules at the same offset — and its label starts at the
-         card's 78px text edge, right of the red line, like the
-         card's own headings. Its foot overlaps the card's top edge
-         by 2px and sits above it, so the card's top border never
-         cuts across the join. It is the toggle for the one-page
-         (simple) view, and stays visible in both views so it can
-         switch back; in the one-page view the drawer melts away
-         around it and the same treatment holds against the simple
-         sheet, which carries the same red line at the same offset. --- */
+         top of the first card itself, grown up into a tab. It belongs
+         to the first (cover) card alone: it keeps that card's pale
+         paper and its -.3deg tilt at all times, even while the other
+         cards are on top covering the first card's body — the tab is
+         the part of the first card that still sticks up above them,
+         in the first card's own colour. To read as one sheet with
+         the card below it, its paper is the card's flat top colour
+         (--paper, not the card's full gradient, which darkens to
+         --paper-shade at its foot and left a visible seam at the
+         join), its foot overlaps the card's top edge by 4px and sits
+         above it so the card's top border never cuts across the
+         join, and it carries the card's ruling — one blue rule
+         phased to continue the card's 32px grid upward, and the red
+         margin line running unbroken from the card up through the
+         tab. The whole tab sits 4px further left than the card's
+         left edge — a very slight shift, so its left border lines
+         up with the rotated card's top-left corner — and its red
+         line is drawn 4px further right inside the tab to
+         compensate, so the line itself never moves. Its label
+         starts at the card's 78px text edge, right of the red
+         line, like the card's own headings. It is the toggle for
+         the one-page (simple) view, and stays visible in both
+         views so it can switch back; in the one-page view the
+         drawer melts away around it, it sits straight on the
+         simple sheet, and the same pale paper holds against the
+         sheet, which carries the same red line at the same
+         offset. --- */
       .one-page-tab-row {
         display: none;
         position: relative; z-index: 3;
-        margin: 0 0 -2px;
+        margin: 0 0 -4px -4px;
         padding-left: 0;
+        transform: rotate(-.3deg);
         transform-origin: left bottom;
       }
       .js .one-page-tab-row { display: flex; }
@@ -658,22 +668,16 @@
         min-height: 48px; padding: 11px 30px 13px var(--tx); cursor: pointer;
         color: var(--ink);
         background:
-          var(--red-line),
+          linear-gradient(90deg, transparent 0 calc(var(--mx) + 4px), var(--rule-red) calc(var(--mx) + 4px), var(--rule-red) calc(var(--mx) + 5.5px), transparent calc(var(--mx) + 5.5px)),
           var(--blue-rules),
-          linear-gradient(175deg, var(--paper), var(--paper-shade));
-        background-position: 0 0, 0 19px, 0 0;
+          linear-gradient(180deg, var(--paper), var(--paper));
+        background-position: 0 0, 0 2px, 0 0;
         border: 1px solid rgba(96, 72, 28, .30);
         border-bottom: none;
         border-radius: 4px 14px 0 0 / 4px 16px 0 0;
         box-shadow: 0 -7px 14px rgba(20, 10, 2, .28), inset 0 1px 0 rgba(255, 255, 255, .55), inset 2px 0 4px rgba(96, 72, 28, .12);
       }
       #view-toggle:hover { filter: brightness(1.04); text-decoration: underline; text-decoration-color: var(--red-ink); text-decoration-thickness: 2px; text-underline-offset: 5px; }
-      /* when a dark card is on top, the tab is cut from that card's
-         own tan paper, not the pale stock of the light cards */
-      .one-page-tab-row.tab-dark #view-toggle {
-        --paper: #e2ba7d;
-        --paper-shade: #d2a45e;
-      }
       /* on: the tab stays exactly where it sits — still flush with
          the sheet below — and is marked only by the red underline,
          as if its card is now the one on top */
@@ -682,7 +686,9 @@
         text-decoration-thickness: 2px; text-underline-offset: 5px;
         box-shadow: 0 -7px 14px rgba(20, 10, 2, .28), inset 0 2px 5px rgba(90, 64, 18, .22);
       }
-      body.simple-on .one-page-tab-row { margin-bottom: -2px; }
+      /* on the plain sheet the first card's tab sits straight,
+         still shifted the same 4px left, flush on the sheet */
+      body.simple-on .one-page-tab-row { margin-bottom: -4px; transform: none; }
 
       /* ---------- Simple view: every card's contents on one plain page.
          Built by the script from the cards themselves, so this view can
@@ -981,13 +987,15 @@
           var peekText = document.getElementById('peek-text');
           var tabRow = document.querySelector('.one-page-tab-row');
 
-          /* The One Page tab is the active card's own top edge, so
-             it follows that card: same tilt, and the dark cards'
-             tan paper while one of them is on top. */
+          /* The One Page tab is the first card's own top edge, so
+             it never follows the card on top: it keeps the first
+             card's pale paper and -.3deg tilt (both set in the CSS)
+             even while another card — a dark tan one included —
+             covers the first card's body. syncTab just clears any
+             inline straightening the simple view left behind. */
           function syncTab() {
-            var tilt = cards[current].style.getPropertyValue('--tilt');
-            tabRow.style.transform = tilt ? 'rotate(' + tilt + ')' : '';
-            tabRow.classList.toggle('tab-dark', cards[current].classList.contains('card-dark'));
+            tabRow.style.transform = '';
+            tabRow.classList.remove('tab-dark');
           }
 
           function render() {
