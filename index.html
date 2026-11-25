@@ -635,21 +635,30 @@
          is a moulded piece, not paper: a glossy body with the
          light running down from its top edge, a pale paper label
          showing through a window near the top with the words
-         lettered on it in dark ink, and a ribbed grip band
-         moulded across its foot. It belongs to the cover card
-         alone: it keeps that card's -.3deg tilt at all times and
-         sits the same 4px further left than the card's edge. Its
-         foot — the part that attaches it to the page — is never
+         lettered on it in dark ink, and — below the label, as on
+         a real pentaflex tab — a protruding front face: a
+         distinct vertical panel stepping out from under the
+         label window, moulded with deep vertical ridges, a
+         shadowed lip where it leaves the top face and a stepped
+         highlight along its lower edge. The front face is built
+         at the tab's existing width and in its existing burnt
+         orange-red, only a shade deeper, the way the front of
+         the moulded piece catches less light than its top. It
+         belongs to the cover card alone: it keeps that card's
+         -.3deg tilt at all times and sits the same 4px further
+         left than the card's edge. Its foot — the part that
+         attaches it to the page, below the front face — is never
          seen: the tab row sits behind the cards (z-index 1
          against the active card's 2) and overlaps the stack by
          13px, so whichever card is on top covers the join, the
          way the following pages in a file cover a tab's base;
-         only the label window and a sliver of the ribbed grip
-         show above the top card's edge. It is the toggle for the
-         one-page (simple) view, and stays visible in both views
-         so it can switch back; in the one-page view it sits
-         straight, clipped over the simple sheet's top edge the
-         same way, with the sheet itself covering its foot. --- */
+         the label window and the whole ribbed front face show
+         above the top card's edge, ending right at it. It is the
+         toggle for the one-page (simple) view, and stays visible
+         in both views so it can switch back; in the one-page view
+         it sits straight, clipped over the simple sheet's top
+         edge the same way, with the sheet itself covering its
+         foot. --- */
       .one-page-tab-row {
         display: none;
         position: relative; z-index: 1;
@@ -660,19 +669,45 @@
       }
       .js .one-page-tab-row { display: flex; }
       #view-toggle {
+        position: relative;
         font: inherit; font-size: 23px; font-weight: 700; line-height: 1.1;
-        min-height: 54px; min-width: 178px; padding: 13px 26px 19px; cursor: pointer;
+        min-height: 76px; min-width: 178px; padding: 11px 26px 38px; cursor: pointer;
         text-align: center;
         color: #2f2019;
         background:
-          linear-gradient(180deg, rgba(255, 255, 255, .38), rgba(255, 255, 255, .05) 46%, rgba(255, 255, 255, 0) 62%),
-          linear-gradient(180deg, #faeed6, #f0d9b0) center 8px / calc(100% - 20px) 35px no-repeat,
-          repeating-linear-gradient(90deg, rgba(58, 20, 5, .22) 0 2px, rgba(255, 235, 210, .10) 2px 3px, transparent 3px 8px) center bottom / 100% 18px no-repeat,
+          linear-gradient(180deg, rgba(255, 255, 255, .38), rgba(255, 255, 255, .05) 34%, rgba(255, 255, 255, 0) 48%),
+          linear-gradient(180deg, #faeed6, #f0d9b0) center 7px / calc(100% - 20px) 31px no-repeat,
           linear-gradient(180deg, #c46747 0%, #a94f33 55%, #93402a 100%);
         border: 1px solid rgba(74, 28, 10, .55);
         border-bottom: none;
         border-radius: 9px 12px 0 0 / 10px 14px 0 0;
         box-shadow: 0 -7px 14px rgba(20, 10, 2, .30), inset 0 2px 3px rgba(255, 240, 214, .5), inset 2px 0 4px rgba(74, 28, 10, .18), inset -2px 0 4px rgba(74, 28, 10, .18);
+      }
+      /* the pentaflex front face: the ribbed vertical panel
+         below the label window, stepping slightly wider than
+         the window the way the moulded front steps out from
+         the tab's top face, and ending at the card's top edge
+         (its foot, the 12px below it, stays covered). Deep
+         vertical grooves — a dark recessed slot with a lit
+         edge every 15px — over a deeper shade of the tab's
+         own orange-red; a shadowed lip along its top where
+         it leaves the top face, and a pale step line above a
+         darker base line along its bottom edge. */
+      #view-toggle::after {
+        content: ""; position: absolute; pointer-events: none;
+        left: 5px; right: 5px; bottom: 12px; height: 23px;
+        background:
+          repeating-linear-gradient(90deg, rgba(255, 235, 210, .16) 0 1px, rgba(58, 20, 5, .06) 1px 4px, rgba(58, 20, 5, .34) 4px 10px, rgba(255, 235, 210, .12) 10px 12px, rgba(58, 20, 5, .06) 12px 15px),
+          linear-gradient(180deg, #b55636 0%, #a34a2e 45%, #96422a 100%);
+        border: 1px solid rgba(74, 28, 10, .50);
+        border-top-color: rgba(58, 20, 5, .65);
+        border-radius: 2px 2px 4px 4px;
+        box-shadow:
+          inset 0 3px 4px rgba(58, 20, 5, .55),
+          inset 0 -1px 0 rgba(255, 226, 192, .35),
+          inset 0 -3px 3px rgba(58, 20, 5, .35),
+          inset 2px 0 3px rgba(58, 20, 5, .22),
+          inset -2px 0 3px rgba(58, 20, 5, .22);
       }
       #view-toggle:hover { filter: brightness(1.06); text-decoration: underline; text-decoration-color: #7c2d1c; text-decoration-thickness: 2px; text-underline-offset: 4px; }
       /* on: the tab stays exactly where it sits — still clipped to
@@ -793,8 +828,10 @@
         .brass-copyright { font-size: 11px; letter-spacing: .11em; }
         /* the tab follows the card's narrow ruling automatically
            through --mx / --tx above; its own padding just tightens
-           around the label window */
-        #view-toggle { font-size: 21px; padding: 12px 22px 17px; min-width: 164px; }
+           around the label window, and the front face below it
+           shrinks a touch with the tab */
+        #view-toggle { font-size: 21px; padding: 10px 22px 34px; min-width: 164px; min-height: 70px; background-size: auto, calc(100% - 18px) 28px, auto; background-position: 0 0, center 6px, 0 0; }
+        #view-toggle::after { height: 20px; bottom: 11px; }
         #simple-view { padding-left: var(--tx); padding-right: 16px; }
       }
       @media (prefers-reduced-motion: reduce) {
