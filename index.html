@@ -45,7 +45,7 @@
         --on-wood-soft: rgba(245, 236, 215, .75);
         --card-shadow: 0 22px 44px rgba(20, 10, 2, .45), 0 4px 10px rgba(20, 10, 2, .30);
         /* Shared pieces, defined once so the surfaces that must line
-           up — card, peek, One Page tab, one-page sheet — can never
+           up — card, peek, one-page sheet — can never
            drift apart: one red margin line at one offset, one text
            edge, one brass face for both nav fittings, one paper for
            every mini-card. The phone layout only moves --mx/--tx. */
@@ -626,38 +626,34 @@
 
       .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 
-      /* ---------- One Page tab: not a separate divider tab but the
-         top of the first card itself, grown up into a tab. It belongs
-         to the first (cover) card alone: it keeps that card's pale
-         paper and its -.3deg tilt at all times, even while the other
-         cards are on top covering the first card's body — the tab is
-         the part of the first card that still sticks up above them,
-         in the first card's own colour. To read as one sheet with
-         the card below it, its paper is the card's flat top colour
-         (--paper, not the card's full gradient, which darkens to
-         --paper-shade at its foot and left a visible seam at the
-         join), its foot overlaps the card's top edge by 4px and sits
-         above it so the card's top border never cuts across the
-         join, and it carries the card's ruling — one blue rule
-         phased to continue the card's 32px grid upward, and the red
-         margin line running unbroken from the card up through the
-         tab. The whole tab sits 4px further left than the card's
-         left edge — a very slight shift, so its left border lines
-         up with the rotated card's top-left corner — and its red
-         line is drawn 4px further right inside the tab to
-         compensate, so the line itself never moves. Its label
-         starts at the card's 78px text edge, right of the red
-         line, like the card's own headings. It is the toggle for
-         the one-page (simple) view, and stays visible in both
-         views so it can switch back; in the one-page view the
-         drawer melts away around it, it sits straight on the
-         simple sheet, and the same pale paper holds against the
-         sheet, which carries the same red line at the same
-         offset. --- */
+      /* ---------- One Page tab: a plastic pentaflex index tab
+         clipped onto the top of the first (cover) card, in the
+         burnt orange-red of the Previous / Next flags on the
+         Publications and Special Projects stacks — the exact same
+         gradient, so the tab and the flags read as one family.
+         Like the coloured plastic tabs in a suspension file, it
+         is a moulded piece, not paper: a glossy body with the
+         light running down from its top edge, a pale paper label
+         showing through a window near the top with the words
+         lettered on it in dark ink, and a ribbed grip band
+         moulded across its foot. It belongs to the cover card
+         alone: it keeps that card's -.3deg tilt at all times and
+         sits the same 4px further left than the card's edge. Its
+         foot — the part that attaches it to the page — is never
+         seen: the tab row sits behind the cards (z-index 1
+         against the active card's 2) and overlaps the stack by
+         13px, so whichever card is on top covers the join, the
+         way the following pages in a file cover a tab's base;
+         only the label window and a sliver of the ribbed grip
+         show above the top card's edge. It is the toggle for the
+         one-page (simple) view, and stays visible in both views
+         so it can switch back; in the one-page view it sits
+         straight, clipped over the simple sheet's top edge the
+         same way, with the sheet itself covering its foot. --- */
       .one-page-tab-row {
         display: none;
-        position: relative; z-index: 3;
-        margin: 0 0 -4px -4px;
+        position: relative; z-index: 1;
+        margin: 0 0 -13px -4px;
         padding-left: 0;
         transform: rotate(-.3deg);
         transform-origin: left bottom;
@@ -665,32 +661,36 @@
       .js .one-page-tab-row { display: flex; }
       #view-toggle {
         font: inherit; font-size: 23px; font-weight: 700; line-height: 1.1;
-        min-height: 48px; padding: 11px 30px 13px var(--tx); cursor: pointer;
-        color: var(--ink);
+        min-height: 54px; min-width: 178px; padding: 13px 26px 19px; cursor: pointer;
+        text-align: center;
+        color: #2f2019;
         background:
-          linear-gradient(90deg, transparent 0 calc(var(--mx) + 4px), var(--rule-red) calc(var(--mx) + 4px), var(--rule-red) calc(var(--mx) + 5.5px), transparent calc(var(--mx) + 5.5px)),
-          var(--blue-rules),
-          linear-gradient(180deg, var(--paper), var(--paper));
-        background-position: 0 0, 0 2px, 0 0;
-        border: 1px solid rgba(96, 72, 28, .30);
+          linear-gradient(180deg, rgba(255, 255, 255, .38), rgba(255, 255, 255, .05) 46%, rgba(255, 255, 255, 0) 62%),
+          linear-gradient(180deg, #faeed6, #f0d9b0) center 8px / calc(100% - 20px) 35px no-repeat,
+          repeating-linear-gradient(90deg, rgba(58, 20, 5, .22) 0 2px, rgba(255, 235, 210, .10) 2px 3px, transparent 3px 8px) center bottom / 100% 18px no-repeat,
+          linear-gradient(180deg, #c46747 0%, #a94f33 55%, #93402a 100%);
+        border: 1px solid rgba(74, 28, 10, .55);
         border-bottom: none;
-        border-radius: 4px 14px 0 0 / 4px 16px 0 0;
-        box-shadow: 0 -7px 14px rgba(20, 10, 2, .28), inset 0 1px 0 rgba(255, 255, 255, .55), inset 2px 0 4px rgba(96, 72, 28, .12);
+        border-radius: 9px 12px 0 0 / 10px 14px 0 0;
+        box-shadow: 0 -7px 14px rgba(20, 10, 2, .30), inset 0 2px 3px rgba(255, 240, 214, .5), inset 2px 0 4px rgba(74, 28, 10, .18), inset -2px 0 4px rgba(74, 28, 10, .18);
       }
-      #view-toggle:hover { filter: brightness(1.04); text-decoration: underline; text-decoration-color: var(--red-ink); text-decoration-thickness: 2px; text-underline-offset: 5px; }
-      /* on: the tab stays exactly where it sits — still flush with
-         the sheet below — and is marked only by the red underline,
-         as if its card is now the one on top */
+      #view-toggle:hover { filter: brightness(1.06); text-decoration: underline; text-decoration-color: #7c2d1c; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+      /* on: the tab stays exactly where it sits — still clipped to
+         the page, its foot still covered — and is marked only by
+         the underline on its label and a slight dimming of the
+         plastic, as if its page is now the one on top */
       #view-toggle[aria-pressed="true"] {
-        text-decoration: underline; text-decoration-color: var(--red-ink);
-        text-decoration-thickness: 2px; text-underline-offset: 5px;
-        box-shadow: 0 -7px 14px rgba(20, 10, 2, .28), inset 0 2px 5px rgba(90, 64, 18, .22);
+        filter: brightness(.95);
+        text-decoration: underline; text-decoration-color: #7c2d1c;
+        text-decoration-thickness: 2px; text-underline-offset: 4px;
+        box-shadow: 0 -7px 14px rgba(20, 10, 2, .30), inset 0 3px 6px rgba(74, 28, 10, .35), inset 2px 0 4px rgba(74, 28, 10, .18), inset -2px 0 4px rgba(74, 28, 10, .18);
       }
       /* on the plain sheet the first card's tab sits straight,
-         still shifted the same 4px left, flush on the sheet */
-      body.simple-on .one-page-tab-row { margin-bottom: -4px; transform: none; }
+         still shifted the same 4px left, clipped over the sheet's
+         top edge with its foot covered by the sheet */
+      body.simple-on .one-page-tab-row { margin-bottom: -13px; transform: none; }
 
-      /* ---------- Simple view: every card's contents on one plain page.
+        /* ---------- Simple view: every card's contents on one plain page.
          Built by the script from the cards themselves, so this view can
          never drift out of sync with the card view. One long sheet of
          paper, a plain sans face, rem-based sizes so browser text-size
@@ -699,8 +699,8 @@
       body.simple-on .index-line, body.simple-on .under, body.simple-on .drawer-front { display: none; }
       /* the drawer box melts away in the one-page view — its wood,
          border and shadow go, and the cards and peek strip inside
-         it hide — leaving only the One Page tab, now sitting flush
-         on the simple sheet below at the sheet's own left edge */
+         it hide — leaving only the One Page tab, now clipped over
+         the simple sheet below at the sheet's own left edge */
       body.simple-on .deck {
         background: none; border: none; box-shadow: none;
         padding: 0; margin: 0;
@@ -712,9 +712,12 @@
         font-size: 1.125rem; line-height: 1.65;
         color: var(--ink);
         /* the same red margin line as the cards, at the same 54px
-           offset, so the line in the One Page tab above continues
-           straight down this sheet; the content is padded to the
-           card's 78px text edge so nothing sits on the line */
+           offset; the content is padded to the card's 78px text
+           edge so nothing sits on the line. The sheet is layered
+           above the deck so its top edge covers the One Page
+           tab's foot, the way a page covers the base of the
+           plastic tab clipped onto it */
+        position: relative; z-index: 2;
         background:
           var(--red-line),
           linear-gradient(175deg, var(--paper), var(--paper-shade));
@@ -788,9 +791,10 @@
         .knob-fitting { width: 92px; height: 38px; }
         .knob { width: 31px; height: 31px; }
         .brass-copyright { font-size: 11px; letter-spacing: .11em; }
-        /* the tab and the one-page sheet follow the card's narrow
-           ruling automatically through --mx / --tx above */
-        #view-toggle { font-size: 21px; padding: 10px 20px 12px var(--tx); }
+        /* the tab follows the card's narrow ruling automatically
+           through --mx / --tx above; its own padding just tightens
+           around the label window */
+        #view-toggle { font-size: 21px; padding: 12px 22px 17px; min-width: 164px; }
         #simple-view { padding-left: var(--tx); padding-right: 16px; }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -987,12 +991,13 @@
           var peekText = document.getElementById('peek-text');
           var tabRow = document.querySelector('.one-page-tab-row');
 
-          /* The One Page tab is the first card's own top edge, so
-             it never follows the card on top: it keeps the first
-             card's pale paper and -.3deg tilt (both set in the CSS)
-             even while another card — a dark tan one included —
-             covers the first card's body. syncTab just clears any
-             inline straightening the simple view left behind. */
+          /* The One Page tab is clipped to the first card alone, so
+             it never follows the card on top: it keeps its burnt
+             orange-red plastic and -.3deg tilt (both set in the
+             CSS) even while another card — a dark tan one included —
+             covers the first card's body and the tab's foot.
+             syncTab just clears any inline straightening the
+             simple view left behind. */
           function syncTab() {
             tabRow.style.transform = '';
             tabRow.classList.remove('tab-dark');
@@ -1107,8 +1112,9 @@
               ? 'Card View — return to the card view'
               : 'One Page — show everything on one page');
             if (on) {
-              /* on the plain sheet the tab sits straight and pale,
-                 attached to the sheet rather than to a tilted card */
+              /* on the plain sheet the tab sits straight, clipped
+                 over the sheet's top edge rather than tilted with
+                 the cover card */
               tabRow.style.transform = '';
               tabRow.classList.remove('tab-dark');
               view.focus();
