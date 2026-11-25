@@ -58,8 +58,10 @@
           radial-gradient(ellipse 36% 90% at 79% 38%, rgba(48, 42, 22, .32), transparent 70%),
           radial-gradient(ellipse 30% 70% at 50% 115%, rgba(216, 196, 138, .28), transparent 70%),
           linear-gradient(180deg, #97875c 0%, #7e6f42 42%, #655732 58%, #86744b 100%);
+        /* the secondary pages (the mini-cards in Publications and
+           Special Projects, and their peeking title strips) are
+           plain, unruled paper — no blue lines */
         --mini-paper:
-          repeating-linear-gradient(180deg, transparent 0 29px, rgba(70,110,160,.14) 29px, rgba(70,110,160,.14) 30px),
           linear-gradient(175deg, #fffbe9, #fdf3cf);
       }
       @media (prefers-color-scheme: dark) {
@@ -268,13 +270,19 @@
         }
       }
 
+      /* The ruling is a 32px baseline grid and the text is set to
+         it: body copy has a 32px line-height, headings occupy two
+         ruled lines (64px), paragraph gaps take one full ruled
+         line, and the background is phased (0 19px) so each
+         baseline lands on a blue rule instead of floating
+         between rules. */
       .card {
         position: relative;
         background:
           var(--red-line),
           var(--blue-rules),
           linear-gradient(175deg, var(--paper), var(--paper-shade));
-        background-position: 0 0, 0 10px, 0 0;
+        background-position: 0 0, 0 19px, 0 0;
         border: 1px solid rgba(96,72,28,.30);
         border-radius: 4px 10px 4px 10px;
         box-shadow: var(--card-shadow);
@@ -294,16 +302,23 @@
         from { transform: translateY(-16px) rotate(var(--tilt, 0deg)); opacity: 0; }
         to { transform: translateY(0) rotate(var(--tilt, 0deg)); opacity: 1; }
       }
-      .card-top { display: flex; justify-content: space-between; gap: 14px; align-items: baseline; flex-wrap: wrap; }
-      .card h1, .card h2 { font-size: 40px; margin: 0; line-height: 1.08; font-weight: 700; }
-      .card p { margin: 0 0 14px; font-size: 21.5px; }
+      .card-top { display: flex; justify-content: space-between; gap: 14px; align-items: baseline; flex-wrap: wrap; min-height: 32px; }
+      .card h1, .card h2 { font-size: 40px; margin: 0; line-height: 64px; font-weight: 700; }
+      .card p { margin: 0 0 32px; font-size: 21.5px; line-height: 32px; }
       .card ul { margin: 4px 0 10px; padding-left: 24px; }
-      .card li { font-size: 21px; margin-bottom: 15px; }
+      .card li { font-size: 21px; line-height: 32px; margin-bottom: 32px; }
       .card li::marker { color: var(--red-ink); }
       .card .sub { padding-left: 22px; }
-      .card .sub li { font-size: 20.5px; margin-bottom: 11px; }
+      .card .sub li { font-size: 20.5px; line-height: 32px; margin-bottom: 32px; }
       .callno { font-size: 19px; color: var(--red-ink); white-space: nowrap; }
       .pencil-note { color: var(--pencil); font-size: 19px; font-style: italic; }
+      /* the Bio card is written in black ink throughout — body,
+         call number and the filed-under note alike (its clone in
+         the One Page view keeps the same black ink) */
+      #card-bio, #card-bio .callno, #card-bio .pencil-note { color: #000; }
+      #simple-view .simple-card[aria-label="Bio"],
+      #simple-view .simple-card[aria-label="Bio"] .callno,
+      #simple-view .simple-card[aria-label="Bio"] .pencil-note { color: #000; }
       /* the See Also cross-reference, scribbled in blue ballpoint
          under the two Naive Bibliometrics links it belongs to:
          italic Dana hand at a tilt, in pen-blue ink instead of the
@@ -356,7 +371,7 @@
           var(--red-line),
           var(--blue-rules),
           linear-gradient(175deg, var(--paper-shade), var(--paper));
-        background-position: 0 0, 0 10px, 0 0;
+        background-position: 0 0, 0 19px, 0 0;
         border: 1px solid rgba(96,72,28,.30); border-top: none;
         border-radius: 0 0 4px 10px;
         box-shadow: 0 16px 28px rgba(20,10,2,.35);
@@ -366,10 +381,10 @@
       }
       .js .peek { display: block; }
       .peek:hover { transform: rotate(.8deg) translateY(5px); }
-      .peek .peek-title { display: block; font-size: 27px; font-weight: 700; line-height: 1.15; }
+      .peek .peek-title { display: block; font-size: 27px; font-weight: 700; line-height: 32px; }
       .peek .peek-text {
         display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-        font-size: 20px; margin-top: 4px; color: var(--ink-soft);
+        font-size: 20px; line-height: 32px; margin-top: 0; color: var(--ink-soft);
       }
       .deck { z-index: 0; }
       .card.active { z-index: 2; }
@@ -397,7 +412,7 @@
       .scroll-list::-webkit-scrollbar-thumb { background: rgba(90,64,18,.5); border-radius: 4px; }
       .mini-card {
         background: var(--mini-paper);
-        background-position: 0 6px, 0 0;
+        background-position: 0 0;
         border: 1px solid rgba(96,72,28,.32);
         border-radius: 4px 9px 4px 9px;
         box-shadow: 0 5px 12px rgba(40,24,4,.28), 0 1px 3px rgba(40,24,4,.2);
@@ -442,7 +457,7 @@
         font: inherit; text-align: left; cursor: pointer; color: var(--ink);
         display: block;
         background: var(--mini-paper);
-        background-position: 0 6px, 0 0;
+        background-position: 0 0;
         border: 1px solid rgba(96,72,28,.38); border-top: none;
         border-radius: 0 0 4px 9px;
         box-shadow: 0 8px 14px rgba(40,24,4,.30), inset 0 6px 6px -4px rgba(60,38,8,.28);
@@ -479,16 +494,17 @@
         filter: drop-shadow(0 4px 5px rgba(40,24,4,.38));
         transition: transform .16s ease, filter .16s ease;
       }
-      /* Previous: a blue arrow flag pointing left, like the top flag on the sheet */
+      /* Previous: a burnt orange-red arrow flag pointing left,
+         in the muted red of the Qatar oryx stamp on the Bio card */
       .mini-controls button.flag-prev {
-        background: linear-gradient(180deg, #4a9bdd 0%, #2b84c8 55%, #1f73b8 100%);
+        background: linear-gradient(180deg, #c46747 0%, #a94f33 55%, #93402a 100%);
         clip-path: polygon(20px 0, 100% 0, 100% 100%, 20px 100%, 0 50%);
         padding: 6px 14px 8px 28px;
         transform: rotate(-1.1deg);
       }
-      /* Next: a pink arrow flag pointing right, like the pink flag on the sheet */
+      /* Next: the same burnt orange-red arrow flag, pointing right */
       .mini-controls button.flag-next {
-        background: linear-gradient(180deg, #f04a92 0%, #e91e6e 55%, #d81b60 100%);
+        background: linear-gradient(180deg, #c46747 0%, #a94f33 55%, #93402a 100%);
         clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%);
         padding: 6px 28px 8px 14px;
         transform: rotate(1deg);
@@ -630,7 +646,7 @@
           var(--red-line),
           var(--blue-rules),
           linear-gradient(175deg, var(--paper), var(--paper-shade));
-        background-position: 0 0, 0 10px, 0 0;
+        background-position: 0 0, 0 19px, 0 0;
         border: 1px solid rgba(96, 72, 28, .30);
         border-bottom: none;
         border-radius: 4px 14px 0 0 / 4px 16px 0 0;
@@ -705,7 +721,9 @@
         :root { --mx: 32px; --tx: 50px; }
         body { font-size: 19px; }
         .wrap { padding: 16px 10px 40px; }
-        .card { padding: 24px 16px 38px var(--tx); }
+        /* the narrower top padding shifts the grid up 6px, so the
+           rules' phase shifts with it to keep baselines on rules */
+        .card { padding: 24px 16px 38px var(--tx); background-position: 0 0, 0 13px, 0 0; }
         .card h1, .card h2 { font-size: 33px; }
         .card p, .card li { font-size: 20px; }
         .cover-flex { flex-direction: column; gap: 14px; }
@@ -772,7 +790,7 @@
         <section class="card" role="tabpanel" id="card-bio" aria-labelledby="tab-bio" style="--tilt:.25deg"
                  data-title="Bio"
                  data-peek="Brett Williams — Brett is an accomplished and versatile librarian, researcher and open-source intelligence professional based in Toronto, with over a decade of experience across a broad range of library services and academic disciplines.">
-          <div class="card-top"><h2>Bio</h2><span class="callno">CT .W55</span></div>
+          <div class="card-top"><span></span><span class="callno">CT .W55</span></div>
           <p><strong>Brett Williams</strong> — Brett is an accomplished and versatile librarian, researcher and open-source intelligence professional based in Toronto, with over a decade of experience across a broad range of library services and academic disciplines. He holds a Master of Library and Information Studies (MLIS) from McGill University and began his career establishing the library systems for the College of the North Atlantic-Qatar. He previously worked for the University of Toronto and has worked for the Ontario Medical Association for 10 years.</p>
           <p>Brett has focused on making copyright, information literacy and database research understandable at every level, working from English as a Foreign Language students to post-PhD researchers to refine their search strategies and improve their research processes.</p>
           <p>Brett has worked as an independent consultant on information management for small consulting firms. He created and maintained the dataset for the largest existing collection of Canadian terrorism charges and convictions, which has been used in several publications in Insight Monitor.</p>
